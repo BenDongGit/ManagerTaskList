@@ -19,24 +19,19 @@
         [TestMethod]
         public void Test_GetAlerts()
         {
-            AlertController serviceController = new AlertController(mockManagerTaskDataAccess.Object);
+            AlertController alertController = new AlertController(mockManagerTaskDataAccess.Object);
             string manager = "Test Manager";
-            ViewResult result = serviceController.GetAlerts(manager) as ViewResult;
+            ViewResult result = alertController.GetAlerts(manager) as ViewResult;
             List<DriverCheckAlert> alerts = result.Model as List<DriverCheckAlert>;
 
-            serviceController.Should().NotBeNull();
+            alertController.Should().NotBeNull();
             result.Should().NotBeNull();
-            Assert.AreEqual(alerts.Count, 2);
+            Assert.AreEqual(alerts.Count, 1);
 
-            var firstAlert = alerts.FirstOrDefault();
-            Assert.AreEqual(firstAlert.DriverName, "Driver1");
-            Assert.AreEqual(firstAlert.Level, AlertLevel.Warning);
-            Assert.AreEqual(firstAlert.Type, AlertType.CheckExpiring);
-
-            var secondAlert = alerts.FirstOrDefault(a => a.DriverName == "Driver2");
-            Assert.AreEqual(secondAlert.DriverName, "Driver2");
-            Assert.AreEqual(secondAlert.Level, AlertLevel.Critical);
-            Assert.AreEqual(secondAlert.Type, AlertType.CheckFailed);
+            var alert = alerts.FirstOrDefault();
+            Assert.AreEqual(alert.DriverName, "Test Driver");
+            Assert.AreEqual(alert.Level, AlertLevel.Critical);
+            Assert.AreEqual(alert.Type, AlertType.CheckMissing);
         }
     }
 }

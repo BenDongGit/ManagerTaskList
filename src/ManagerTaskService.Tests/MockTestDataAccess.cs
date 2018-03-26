@@ -83,6 +83,37 @@
             throw new NotImplementedException();
         }
 
+        public IEnumerable<Driver> GetDrivers(string manager)
+        {
+            List<Driver> drivers = new List<Driver>
+            {
+                new Driver
+                {
+                   Name = "Test Driver",
+                   Manager = new Manager
+                   {
+                       Name = manager
+                   },
+                   Checks = new List<Check>
+                   {
+                       new Check
+                       {
+                           Date = DateTime.Now.AddDays(14),
+                           Type = (int)CheckType.License,
+                           Success = true
+                        },
+                        new Check
+                        {
+                            Date = DateTime.Now,
+                            Type = (int)CheckType.PhotocardExpired,
+                            Success = false
+                        }
+                   }
+               }
+            };
+            return drivers;
+        }
+
         public Manager GetManager(string name)
         {
             return new Manager

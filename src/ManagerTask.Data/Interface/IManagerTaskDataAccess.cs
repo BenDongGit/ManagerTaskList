@@ -13,6 +13,8 @@
 
         Driver GetDriver(string name);
 
+        IEnumerable<Driver> GetDrivers(string manager);
+
         void AddCheck(string driver, CheckType type, bool success, DateTime date);
 
         void AddChecks(IEnumerable<Check> checks);

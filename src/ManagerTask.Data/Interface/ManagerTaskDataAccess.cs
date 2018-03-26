@@ -85,6 +85,21 @@
             });
         }
 
+        public IEnumerable<Driver> GetDrivers(string managerName)
+        {
+            return mtcHelper.Call(context => {
+                var manager = context.Managers.FirstOrDefault(
+                   m => m.Name.ToLower() == managerName.ToLower());
+
+                if (manager == null)
+                {
+                    return null;
+                }
+
+                return manager.Drivers.ToList();
+            });
+        }
+
         public void AddCheck(string driverName, CheckType type, bool success, DateTime date)
         {
             if (string.IsNullOrEmpty(driverName))
@@ -142,7 +157,7 @@
                     m => m.Name.ToLower() == managerName.ToLower());
                 if (manager == null)
                 {
-                    throw new InvalidOperationException("The manager is not found");
+                    return null;
                 }
 
                 return manager.Drivers.SelectMany(d => d.Checks).ToList();
@@ -162,7 +177,7 @@
                     d => d.Name.ToLower() == driverName.ToLower());
                 if (driver == null)
                 {
-                    throw new InvalidOperationException("The driver is not found");
+                    return null;
                 }
 
                 return driver.Checks.ToList();

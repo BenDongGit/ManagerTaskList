@@ -22,8 +22,8 @@
         {
             try
             {
-                var checks = managerTaskDataAccess.GetChecksByManager(manager).ToList();
-                var alerts = GetAlertsFromCheck(checks).ToList();
+                var drivers = managerTaskDataAccess.GetDrivers(manager).ToList();
+                var alerts = GetAlerts(drivers).ToList();
                 return View(alerts);
             }
             catch (Exception e)
@@ -33,33 +33,52 @@
             }
         }
 
-        public IEnumerable<DriverCheckAlert> GetAlertsFromCheck(List<Check> checks)
+        public IEnumerable<DriverCheckAlert> GetAlerts(List<Driver> drivers)
         {
-            if (checks == null || checks.Count == 0)
+            var alerts = new List<DriverCheckAlert>();
+            if (drivers == null || drivers.Count == 0)
             {
-                yield return null;
+                return alerts;
             }
             else
             {
-                foreach (var check in checks)
+                foreach (var driver in drivers)
                 {
-                    if (!check.Success)
+                    var checkTypes = new List<int>();
+                    foreach (var check in driver.Checks)
                     {
-                        yield return new DriverCheckAlert(
-                            check.Driver.Name, AlertType.CheckFailed, AlertLevel.Critical, DateTime.Now);
+                        if (!checkTypes.Contains(check.Type))
+                        {
+                            checkTypes.Add(check.Type);
+                        }
                     }
-                    else if (check.Date - DateTime.Now <= ExpiringSpan && check.Date >= DateTime.Now)
+
+                    if (checkTypes.Count < Enum.GetValues(typeof(CheckType)).Length)
                     {
-                        yield return new DriverCheckAlert(
-                            check.Driver.Name, AlertType.CheckExpiring, AlertLevel.Warning, DateTime.Now);
+                        alerts.Add(new DriverCheckAlert(driver.Name, AlertType.CheckMissing, AlertLevel.Critical, DateTime.Now));
                     }
-                    else if (check.Date < DateTime.Now || check.Type == (int)CheckType.PhotocardExpired)
+                    else
                     {
-                        yield return new DriverCheckAlert(
-                            check.Driver.Name, AlertType.CheckExpired, AlertLevel.Error, DateTime.Now);
+                        if (driver.Checks.Any(c => !c.Success))
+                        {
+                            alerts.Add(new DriverCheckAlert(driver.Name, AlertType.CheckFailed, AlertLevel.Critical, DateTime.Now));
+                        }
+                        else if (driver.Checks.Any(c => c.Date - DateTime.Now <= ExpiringSpan && c.Date >= DateTime.Now))
+                        {
+                            alerts.Add(new DriverCheckAlert(driver.Name, AlertType.CheckExpiring, AlertLevel.Warning, DateTime.Now));
+                        }
+                        else
+                        {
+                            if (driver.Checks.Any(c => c.Date < DateTime.Now))
+                            {
+                                alerts.Add(new DriverCheckAlert(driver.Name, AlertType.CheckExpired, AlertLevel.Error, DateTime.Now));
+                            }
+                        }
                     }
                 }
             }
+
+            return alerts;
         }
     }
 }
