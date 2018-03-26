@@ -1,0 +1,29 @@
+﻿@using ManagerTask.Data
+@model List<Check>
+@{
+    ViewBag.Title = "Manager Checks";
+}
+<style>
+    .grid-control {
+        padding: 5px;
+    }
+</style>
+<div style="padding:20px">
+    <div class="row text-info">
+        <div class="col-sm-3 grid-control"><strong>Driver</strong></div>
+        <div class="col-sm-3 grid-control"><strong>Success</strong></div>
+        <div class="col-sm-3 grid-control"><strong>Check Type</strong></div>
+        <div class="col-sm-3 grid-control"><strong>Date</strong></div>
+    </div>
+    <div style="padding-top:10px">
+        @foreach (var check in Model)
+        {
+            <div class="row">
+                <div class="col-sm-3 grid-control">@check.Driver.Name</div>
+                <div class="col-sm-3 grid-control">@check.Success</div>
+                <div class="col-sm-3 grid-control">@((CheckType)check.Type)</div>
+                <div class="col-sm-3 grid-control">@check.Date</div>
+            </div>
+        }
+    </div>
+</div>

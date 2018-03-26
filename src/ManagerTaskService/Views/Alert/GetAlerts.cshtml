@@ -1,0 +1,45 @@
+﻿@using ManagerTaskService.Models
+@model List<DriverCheckAlert>
+@{
+    ViewBag.Title = "Get Alerts";
+}
+
+<style>
+    .grid-control {
+        padding: 5px;
+    }
+</style>
+
+@if (ViewBag.Error != null)
+{
+    <p class="text-danger">@ViewBag.Error</p>
+}
+else
+{
+    if (Model != null && Model.Count > 0)
+    {
+        <div style="padding:20px">
+            <div class="row text-info">
+                <div class="col-sm-3 grid-control"><strong>Driver</strong></div>
+                <div class="col-sm-3 grid-control"><strong>Alert Type</strong></div>
+                <div class="col-sm-3 grid-control"><strong>Alert Level</strong></div>
+                <div class="col-sm-3 grid-control"><strong>Date</strong></div>
+            </div>
+            <div style="padding-top:10px">
+                @foreach (var alert in Model)
+                {
+                    <div class="row">
+                        <div class="col-sm-3 grid-control">@alert.DriverName</div>
+                        <div class="col-sm-3 grid-control">@((AlertType)alert.Type)</div>
+                        <div class="col-sm-3 grid-control">@((AlertLevel)alert.Level)</div>
+                        <div class="col-sm-3 grid-control">@alert.Date</div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <p class="text-info">There is no alerts</p>
+    }
+}
