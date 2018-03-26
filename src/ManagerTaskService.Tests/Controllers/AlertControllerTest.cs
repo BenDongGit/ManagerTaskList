@@ -26,12 +26,12 @@
 
             alertController.Should().NotBeNull();
             result.Should().NotBeNull();
-            Assert.AreEqual(alerts.Count, 1);
+            Assert.AreEqual(alerts.Count, 2);
 
-            var alert = alerts.FirstOrDefault();
-            Assert.AreEqual(alert.DriverName, "Test Driver");
-            Assert.AreEqual(alert.Level, AlertLevel.Critical);
-            Assert.AreEqual(alert.Type, AlertType.CheckMissing);
+            var alert1 = alerts.FirstOrDefault();
+            Assert.AreEqual(alert1.DriverName, "Driver1");
+            Assert.AreEqual(alert1.Level, AlertLevel.Critical);
+            Assert.AreEqual(alert1.Type, AlertType.CheckMissing);
         }
     }
 }

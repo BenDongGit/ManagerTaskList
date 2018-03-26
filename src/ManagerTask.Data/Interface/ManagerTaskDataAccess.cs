@@ -87,7 +87,7 @@
 
         public IEnumerable<Driver> GetDrivers(string managerName)
         {
-            return mtcHelper.Call(context => {
+            return mtcHelper.CallWithTransaction(context => {
                 var manager = context.Managers.FirstOrDefault(
                    m => m.Name.ToLower() == managerName.ToLower());
 
