@@ -17,8 +17,9 @@
         public int Id { get; set; }
 
         [ForeignKey("Manager")]
-        public int ManagerId { get; set; }
+        public string ManagerId { get; set; }
 
+        [Required]
         public string Name { get; set; }
 
         public DateTime? DateJoinedCompany { get; set; }

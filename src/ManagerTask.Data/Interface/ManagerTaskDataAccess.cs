@@ -9,39 +9,6 @@
     {
         private IDbContextHelper<ManagerTaskContext> mtcHelper = new DbContextHelper<ManagerTaskContext>();
 
-        public void AddManager(string name)
-        {
-            if (string.IsNullOrEmpty(name))
-            {
-                throw new ArgumentNullException("Missing manager name");
-            }
-
-            mtcHelper.CallWithTransaction(context =>
-            {
-                if (context.Managers.ToList().FirstOrDefault(
-                    m => m.Name.ToLower() == name.ToLower()) != null)
-                {
-                    throw new InvalidOperationException("The manager has already been added");
-                }
-
-                Manager manager = new Manager
-                {
-                    Name = name
-                };
-                context.Set<Manager>().Add(manager);
-                context.SaveChanges();
-            });
-        }
-
-        public Manager GetManager(string name)
-        {
-            return mtcHelper.Call(context =>
-            {
-                return context.Managers.FirstOrDefault(
-                    m => m.Name.ToLower() == name.ToLower());
-            });
-        }
-
         public void AddDriver(string name, string managerName, DateTime? dateJoinedCompany)
         {
             if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(managerName))
@@ -51,8 +18,8 @@
 
             mtcHelper.CallWithTransaction(context =>
             {
-                var manager = context.Managers.FirstOrDefault(
-                    m => m.Name.ToLower() == managerName.ToLower());
+                var manager = context.Users.FirstOrDefault(
+                    m => m.UserName.ToLower() == managerName.ToLower());
                 if (manager == null)
                 {
                     throw new InvalidOperationException("The manager does not exist");
@@ -87,9 +54,10 @@
 
         public IEnumerable<Driver> GetDrivers(string managerName)
         {
-            return mtcHelper.CallWithTransaction(context => {
-                var manager = context.Managers.FirstOrDefault(
-                   m => m.Name.ToLower() == managerName.ToLower());
+            return mtcHelper.CallWithTransaction(context =>
+            {
+                var manager = context.Users.FirstOrDefault(
+                   m => m.UserName.ToLower() == managerName.ToLower());
 
                 if (manager == null)
                 {
@@ -97,6 +65,22 @@
                 }
 
                 return manager.Drivers.ToList();
+            });
+        }
+
+        public IEnumerable<Driver> GetDriversWithNoChecks(string managerName)
+        {
+            return mtcHelper.CallWithTransaction(context =>
+            {
+                var manager = context.Users.FirstOrDefault(
+                   m => m.UserName.ToLower() == managerName.ToLower());
+
+                if (manager == null)
+                {
+                    return null;
+                }
+
+                return manager.Drivers.Where(d => !d.Checks.Any()).ToList();
             });
         }
 
@@ -153,8 +137,8 @@
 
             return mtcHelper.Call<IEnumerable<Check>>(context =>
             {
-                var manager = context.Managers.FirstOrDefault(
-                    m => m.Name.ToLower() == managerName.ToLower());
+                var manager = context.Users.FirstOrDefault(
+                    m => m.UserName.ToLower() == managerName.ToLower());
                 if (manager == null)
                 {
                     return null;
@@ -182,11 +166,6 @@
 
                 return driver.Checks.ToList();
             });
-        }
-
-        public IEnumerable<DriverCheck> GetDriverCheck()
-        {
-            throw new NotImplementedException();
         }
     }
 }

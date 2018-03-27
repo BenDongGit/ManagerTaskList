@@ -1,23 +1,23 @@
 ﻿namespace ManagerTask.Data
 {
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
 
-    public class Manager
+    public class Manager : IdentityUser
     {
-        public Manager()
+        public Manager() : base()
         {
             Drivers = new HashSet<Driver>();
         }
 
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-
-        [Required]
-        public string Name { get; set; }
-
         public virtual ICollection<Driver> Drivers { get; set; }
+
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<Manager> manager)
+        {
+            return await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
+        }
     }
 }

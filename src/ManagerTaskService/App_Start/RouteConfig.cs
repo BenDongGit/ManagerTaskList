@@ -16,7 +16,7 @@ namespace ManagerTaskService
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Alert", action = "GetAlerts", id = UrlParameter.Optional }
             );
         }
     }

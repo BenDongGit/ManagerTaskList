@@ -22,13 +22,13 @@
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">
         <label class="col-md-2 control-label">Driver</label>
-        <div class="col-md-10">
+        <div class="col-md-3">
             <input class="form-control" data-val="true" data-val-required="The Name field is required." id="driver" name="driver" type="text" value="">
         </div>
     </div>
     <div class="form-group">
         <label class="col-md-2 control-label">Check Type</label>
-        <div class="col-md-10">
+        <div class="col-md-3">
             <select class="form-control" data-val="true" id="type" name="type">
                 <option value="1">License</option>
                 <option value="2">PhotocardExpired</option>
@@ -39,7 +39,7 @@
     </div>
     <div class="form-group">
         <label class="col-md-2 control-label">Success</label>
-        <div class="col-md-10">
+        <div class="col-md-3">
             <select class="form-control" data-val="true" id="success" name="success">
                 <option value="true">True</option>
                 <option value="false">False</option>
@@ -48,8 +48,13 @@
     </div>
     <div class="form-group">
         <label class="col-md-2 control-label">Date</label>
-        <div class="col-md-10">
-            <input class="form-control" data-val="true" data-val-required="The Name field is required." id="date" name="date" type="datetime" value="">
+        <div class="col-md-3">
+            <div class='input-group date ' id='datepicker'>
+                <input type='text' class="form-control" data-val="true" data-val-required="The Name field is required." id="date" name="date" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
         </div>
     </div>
     <div class="form-group">
@@ -58,3 +63,11 @@
         </div>
     </div>
 }
+
+<script type="text/javascript">
+    $(function () {
+        $('#datepicker').datetimepicker({
+            defaultDate: new Date().toLocaleDateString()
+        });
+    });
+</script>

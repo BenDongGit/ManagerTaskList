@@ -1,0 +1,37 @@
+﻿@using ManagerTask.Data
+@model List<Driver>
+@{
+    ViewBag.Title = "Drivers";
+}
+<h2>@ViewBag.Title.</h2>
+
+@if (ViewBag.Error != null)
+{
+    <p class="text-danger warning">@ViewBag.Error</p>
+}
+@if (Model != null && Model.Count > 0)
+{
+    <div style="padding:20px">
+        <div class="row text-info">
+            <div class="col-sm-3 grid-control"><strong>Name</strong></div>
+            <div class="col-sm-3 grid-control"><strong>Manager</strong></div>
+            <div class="col-sm-3 grid-control"><strong>Date Joined Company</strong></div>
+            <div class="col-sm-3 grid-control"><strong>Checks</strong></div>
+        </div>
+        <div style="padding-top:10px">
+            @foreach (var driver in Model)
+            {
+                <div class="row">
+                    <div class="col-sm-3 grid-control">@driver.Name</div>
+                    <div class="col-sm-3 grid-control">@driver.Manager.UserName</div>
+                    <div class="col-sm-3 grid-control">@driver.DateJoinedCompany</div>
+                    <div class="col-sm-3 grid-control">@Html.ActionLink("Checks", "GetChecksByDriver", "ManagerTask", new { driver = driver.Name }, null)</div>
+                </div>
+            }
+        </div>
+    </div>
+}
+else
+{
+    <p class="text-danger warning">There are no drivers found</p>
+}

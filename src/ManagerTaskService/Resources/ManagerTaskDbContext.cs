@@ -2,10 +2,11 @@
 {
     using ManagerTask.Data;
 
-    /// <summary>
-    /// This is for data migrations use
-    /// </summary>
     public class ManagerTaskDbContext : ManagerTaskContext
     {
+        public static ManagerTaskDbContext Create()
+        {
+            return new ManagerTaskDbContext();
+        }
     }
 }

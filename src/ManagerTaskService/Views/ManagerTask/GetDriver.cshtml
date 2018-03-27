@@ -1,11 +1,11 @@
 ﻿@model ManagerTask.Data.Driver
 @{
-    ViewBag.Title = "GetDriver";
+    ViewBag.Title = "Driver";
 }
-
+<h2>@ViewBag.Title.</h2>
 <div>
     <label>Driver Name</label> @Model.Name
 </div>
 <div>
-    <label>Manager Name</label> @Model.Manager.Name
+    <label>Manager Name</label> @Model.Manager.UserName
 </div>

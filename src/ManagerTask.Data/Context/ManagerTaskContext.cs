@@ -1,20 +1,20 @@
 ﻿namespace ManagerTask.Data
 {
+    using Microsoft.AspNet.Identity.EntityFramework;
     using System.Data.Entity;
 
-    public class ManagerTaskContext : DbContext
+    public class ManagerTaskContext : IdentityDbContext<Manager>
     {
-        public ManagerTaskContext() : base("ManagerTaskService")
+        public ManagerTaskContext() : base("ManagerTaskService", throwIfV1Schema: false)
         {
         }
 
         public virtual DbSet<Check> Checks { get; set; }
         public virtual DbSet<Driver> Drivers { get; set; }
-        public virtual DbSet<Manager> Managers { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            Database.SetInitializer<ManagerTaskContext>(null);
+            //Database.SetInitializer<ManagerTaskContext>(null);
             base.OnModelCreating(modelBuilder);
         }
     }

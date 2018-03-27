@@ -5,15 +5,13 @@
 
     public interface IManagerTaskDataAccess
     {
-        void AddManager(string name);
-
-        Manager GetManager(string name);
-
         void AddDriver(string name, string managerName, DateTime? dateJoinedCompany);
 
         Driver GetDriver(string name);
 
         IEnumerable<Driver> GetDrivers(string manager);
+
+        IEnumerable<Driver> GetDriversWithNoChecks(string manager);
 
         void AddCheck(string driver, CheckType type, bool success, DateTime date);
 
@@ -22,7 +20,5 @@
         IEnumerable<Check> GetChecksByManager(string manager);
 
         IEnumerable<Check> GetChecksByDriver(string driver);
-
-        IEnumerable<DriverCheck> GetDriverCheck();
     }
 }

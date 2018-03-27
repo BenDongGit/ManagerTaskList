@@ -9,7 +9,7 @@ namespace ManagerTaskService.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationsEnabled = false;
         }
 
         protected override void Seed(ManagerTaskService.Resources.ManagerTaskDbContext context)

@@ -1,16 +1,13 @@
 ﻿@using ManagerTask.Data
 @model List<Check>
 @{
-    ViewBag.Title = "Manager Checks";
+    ViewBag.Title = "Checks";
 }
-<style>
-    .grid-control {
-        padding: 5px;
-    }
-</style>
+<h2>@ViewBag.Title.</h2>
+
 @if (ViewBag.Error != null)
 {
-    <p class="text-danger">@ViewBag.Error</p>
+    <p class="text-danger warning">@ViewBag.Error</p>
 }
 @if (Model != null && Model.Count > 0)
 {
@@ -36,5 +33,5 @@
 }
 else
 {
-    <p class="text-danger">There is no check found</p>
+    <p class="text-danger warning">There is no check found</p>
 }

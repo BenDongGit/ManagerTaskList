@@ -1,12 +1,13 @@
 ﻿namespace ManagerTaskService.Controllers
 {
+    using ManagerTask.Data;
+    using Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Mvc;
-    using ManagerTask.Data;
-    using Models;
 
+    [Authorize]
     public class AlertController : Controller
     {
         // Assume the exipring time span are 15 day
@@ -19,12 +20,24 @@
         }
 
         [HttpGet]
-        public ActionResult GetAlerts(string manager)
+        public ActionResult GetAlerts()
         {
             try
             {
-                var checks = managerTaskDataAccess.GetChecksByManager(manager).ToList();
+                var user = HttpContext.User;
+                if (user == null)
+                {
+                    return View(new List<DriverCheckAlert>());
+                }
+
+                var checks = managerTaskDataAccess.GetChecksByManager(user.Identity.Name).ToList();
                 var alerts = GetAlertsWithChecks(checks).ToList();
+
+                var drivers = managerTaskDataAccess.GetDriversWithNoChecks(user.Identity.Name).ToList();
+                alerts.AddRange(
+                    drivers.Select(d => new DriverCheckAlert(d.Name, AlertType.CheckMissing, AlertLevel.Critical, DateTime.Now))
+                    .ToList());
+
                 return View(alerts);
             }
             catch (Exception e)

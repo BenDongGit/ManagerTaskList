@@ -1,18 +1,13 @@
 ﻿@using ManagerTaskService.Models
 @model List<DriverCheckAlert>
 @{
-    ViewBag.Title = "Get Alerts";
+    ViewBag.Title = "Alerts";
 }
-
-<style>
-    .grid-control {
-        padding: 5px;
-    }
-</style>
+<h2>@ViewBag.Title.</h2>
 
 @if (ViewBag.Error != null)
 {
-    <p class="text-danger">@ViewBag.Error</p>
+    <p class="text-danger warning">@ViewBag.Error</p>
 }
 else
 {
@@ -40,6 +35,6 @@ else
     }
     else
     {
-        <p class="text-info">There is no alerts</p>
+        <p class="text-danger warning">There are no alerts found</p>
     }
 }
