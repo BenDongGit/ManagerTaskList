@@ -45,7 +45,7 @@
                     PagingInfo = new PagingInfo
                     {
                         CurrentPage = page,
-                        Pages = alerts.Count / PageSize
+                        Pages = (int)Math.Ceiling((decimal)alerts.Count / PageSize)
                     },
                     Alerts = alerts.Skip(PageSize * (page - 1)).Take(PageSize).OrderBy(x => x.DriverName).ToList()
                 };
