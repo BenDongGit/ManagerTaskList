@@ -263,6 +263,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\AlertViewModel.cs" />
     <Compile Include="Resources\ManagerTaskDbContext.cs" />
     <Compile Include="Resources\NinjectDependencyResolver.cs" />
     <Compile Include="Models\AlertLevel.cs" />

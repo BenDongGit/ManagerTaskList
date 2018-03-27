@@ -10,6 +10,8 @@
     [Authorize]
     public class AlertController : Controller
     {
+        private static readonly int PageSize = 10;
+        private static readonly int PageSpan = 4;
         // Assume the exipring time span are 15 day
         private static readonly TimeSpan ExpiringSpan = TimeSpan.FromDays(15);
         private IManagerTaskDataAccess managerTaskDataAccess;
@@ -20,7 +22,7 @@
         }
 
         [HttpGet]
-        public ActionResult GetAlerts()
+        public ActionResult GetAlerts(int page = 1)
         {
             try
             {
@@ -38,7 +40,17 @@
                     drivers.Select(d => new DriverCheckAlert(d.Name, AlertType.CheckMissing, AlertLevel.Critical, DateTime.Now))
                     .ToList());
 
-                return View(alerts);
+                AlertViewModel model = new AlertViewModel
+                {
+                    PagingInfo = new PagingInfo
+                    {
+                        CurrentPage = page,
+                        Pages = alerts.Count / PageSize
+                    },
+                    Alerts = alerts.Skip(PageSize * (page - 1)).Take(PageSize).OrderBy(x => x.DriverName).ToList()
+                };
+
+                return View(model);
             }
             catch (Exception e)
             {

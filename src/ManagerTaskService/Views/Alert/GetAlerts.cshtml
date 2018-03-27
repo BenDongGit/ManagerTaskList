@@ -1,5 +1,5 @@
 ﻿@using ManagerTaskService.Models
-@model List<DriverCheckAlert>
+@model AlertViewModel
 @{
     ViewBag.Title = "Alerts";
 }
@@ -11,7 +11,7 @@
 }
 else
 {
-    if (Model != null && Model.Count > 0)
+    if (Model.Alerts != null && Model.Alerts.Count > 0)
     {
         <div style="padding:20px">
             <div class="row text-info">
@@ -21,7 +21,7 @@ else
                 <div class="col-sm-3 grid-control"><strong>Date</strong></div>
             </div>
             <div style="padding-top:10px">
-                @foreach (var alert in Model)
+                @foreach (var alert in Model.Alerts)
                 {
                     <div class="row">
                         <div class="col-sm-3 grid-control">@alert.DriverName</div>
@@ -31,6 +31,30 @@ else
                     </div>
                 }
             </div>
+        </div>
+        <div class="btn-group">
+            @for (int i = 1; i <= Model.PagingInfo.Pages; i++)
+            {
+                if (i == Model.PagingInfo.CurrentPage)
+                {
+                    @Html.ActionLink(i.ToString(), "GetAlerts", "Alert", new { area = "", page = i }, new { @class = "btn btn-primary" })
+                }
+                else
+                {
+                    if (Model.PagingInfo.CurrentPage - i == Model.PagingInfo.PageSpan)
+                    {
+                        @Html.ActionLink("<<", "GetAlerts", "Alert", new { area = "", page = i }, new { @class = "btn btn-default" })
+                    }
+                    else if (i - Model.PagingInfo.CurrentPage == Model.PagingInfo.PageSpan)
+                    {
+                        @Html.ActionLink(">>", "GetAlerts", "Alert", new { area = "", page = i }, new { @class = "btn btn-default" })
+                    }
+                    else if (Model.PagingInfo.CurrentPage - i < Model.PagingInfo.PageSpan && i - Model.PagingInfo.CurrentPage < Model.PagingInfo.PageSpan)
+                    {
+                        @Html.ActionLink(i.ToString(), "GetAlerts", "Alert", new { area = "", page = i }, new { @class = "btn btn-default" })
+                    }
+                }
+            }
         </div>
     }
     else
