@@ -135,7 +135,7 @@
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                    return RedirectToAction("Book", "Seat");
+                    return RedirectToAction("GetAlerts", "Alert");
                 }
                 AddErrors(result);
             }
