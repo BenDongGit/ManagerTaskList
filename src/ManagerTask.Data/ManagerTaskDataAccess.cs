@@ -22,7 +22,7 @@
         {
             if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(managerName))
             {
-                throw new ArgumentNullException("Missing manager name or dirver name");
+                throw new InvalidOperationException("Missing manager name or dirver name");
             }
 
             databaseHelper.CallWithTransaction(context =>
@@ -119,7 +119,7 @@
         {
             if (string.IsNullOrEmpty(driverName))
             {
-                throw new ArgumentNullException("The dirver should not be empty");
+                throw new InvalidOperationException("The dirver should not be empty");
             }
 
             databaseHelper.CallWithTransaction(context =>
@@ -153,7 +153,7 @@
         {
             if (checks == null || checks.Count() == 0)
             {
-                throw new ArgumentNullException("There is no available check to be added");
+                throw new InvalidOperationException("There is no available check to be added");
             }
 
             databaseHelper.CallWithTransaction(context =>
@@ -172,7 +172,7 @@
         {
             if (string.IsNullOrEmpty(managerName))
             {
-                throw new ArgumentNullException("The manager should not be empty");
+                throw new InvalidOperationException("The manager should not be empty");
             }
 
             return databaseHelper.Call<IEnumerable<Check>>(context =>
@@ -197,7 +197,7 @@
         {
             if (string.IsNullOrEmpty(driverName))
             {
-                throw new ArgumentNullException("The driver name should not be empty");
+                throw new InvalidOperationException("The driver name should not be empty");
             }
 
             return databaseHelper.Call<IEnumerable<Check>>(context =>

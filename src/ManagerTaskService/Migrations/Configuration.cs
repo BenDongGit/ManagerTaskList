@@ -1,17 +1,24 @@
 namespace ManagerTaskService.Migrations
 {
-    using System;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
-    using System.Linq;
 
+    /// <summary>
+    /// The migration configuration
+    /// </summary>
     internal sealed class Configuration : DbMigrationsConfiguration<ManagerTaskService.Resources.ManagerTaskDbContext>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Configuration"/> class
+        /// </summary>
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
         }
 
+        /// <summary>
+        /// The seed
+        /// </summary>
+        /// <param name="context"></param>
         protected override void Seed(ManagerTaskService.Resources.ManagerTaskDbContext context)
         {
             //  This method will be called after migrating to the latest version.

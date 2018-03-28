@@ -12,10 +12,16 @@ namespace ManagerTaskService
     using System.Web;
     using System.Web.Mvc;
 
+    /// <summary>
+    /// The ninject web common
+    /// </summary>
     public static class NinjectWebCommon
     {
         private static readonly Bootstrapper bootstrapper = new Bootstrapper();
 
+        /// <summary>
+        /// Starts ninject register
+        /// </summary>
         public static void Start()
         {
             DynamicModuleUtility.RegisterModule(typeof(OnePerRequestHttpModule));
@@ -23,11 +29,18 @@ namespace ManagerTaskService
             bootstrapper.Initialize(CreateKernel);
         }
 
+        /// <summary>
+        /// Stops the bootstrapper
+        /// </summary>
         public static void Stop()
         {
             bootstrapper.ShutDown();
         }
 
+        /// <summary>
+        /// Creates the kernel
+        /// </summary>
+        /// <returns>The kernel</returns>
         private static IKernel CreateKernel()
         {
             var kernel = new StandardKernel();
@@ -37,6 +50,11 @@ namespace ManagerTaskService
             RegisterServices(kernel);
             return kernel;
         }
+
+        /// <summary>
+        /// Regiters the services
+        /// </summary>
+        /// <param name="kernel">The kernel</param>
         private static void RegisterServices(IKernel kernel)
         {
             DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));

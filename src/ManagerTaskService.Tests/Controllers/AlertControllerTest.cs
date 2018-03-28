@@ -8,13 +8,19 @@
     using System.Collections.Generic;
     using System.Web.Mvc;
 
+    /// <summary>
+    /// The alert controller
+    /// </summary>
     [TestClass]
     public class AlertControllerTest
     {
-        private Mock<MockTestDataAccess> mockManagerTaskDataAccess = new Mock<MockTestDataAccess>();
+        private Mock<FakeManagerTaskDataAccess> mockManagerTaskDataAccess = new Mock<FakeManagerTaskDataAccess>();
 
+        /// <summary>
+        /// Tests the get alerts
+        /// </summary>
         [TestMethod]
-        public void Test_GetAlerts()
+        public void GetAlerts()
         {
             AlertController alertController = new AlertController(mockManagerTaskDataAccess.Object);
             ViewResult result = alertController.GetAlerts() as ViewResult;

@@ -2,6 +2,9 @@
 
 namespace ManagerTaskService.Models
 {
+    /// <summary>
+    /// Model class for an alert
+    /// </summary>
     public class AlertViewModel
     {
         public List<DriverCheckAlert> Alerts { get; set; }
@@ -9,6 +12,9 @@ namespace ManagerTaskService.Models
         public PagingInfo PagingInfo { get; set; }
     }
 
+    /// <summary>
+    /// Model class for an paging info
+    /// </summary>
     public class PagingInfo
     {
         public int CurrentPage { get; set; }

@@ -1,16 +1,23 @@
-﻿using System;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin;
-using Microsoft.Owin.Security.Cookies;
-using Owin;
-using ManagerTaskService.Resources;
-using ManagerTask.Data;
-
-namespace ManagerTaskService
+﻿namespace ManagerTaskService
 {
+    using System;
+    using ManagerTask.Data;
+    using ManagerTaskService.Resources;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.Owin;
+    using Microsoft.Owin;
+    using Microsoft.Owin.Security.Cookies;
+    using Owin;
+
+    /// <summary>
+    /// The start up
+    /// </summary>
     public partial class Startup
     {
+        /// <summary>
+        /// Configures the auth.
+        /// </summary>
+        /// <param name="app">The application builder</param>
         public void ConfigureAuth(IAppBuilder app)
         {
             // Configure the db context, user manager and signin manager to use a single instance per request

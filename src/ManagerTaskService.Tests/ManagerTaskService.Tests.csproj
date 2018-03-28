@@ -128,7 +128,7 @@
     <Compile Include="Controllers\AlertControllerTest.cs" />
     <Compile Include="Controllers\ManagerTaskControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Interface\MockTestDataAccess.cs" />
+    <Compile Include="FakeManagerTaskDataAccess.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config">

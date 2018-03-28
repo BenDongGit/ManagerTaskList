@@ -1,30 +1,44 @@
 ﻿namespace ManagerTaskService.Controllers
 {
-    using ManagerTaskService.Models;
-    using Microsoft.AspNet.Identity;
-    using Microsoft.AspNet.Identity.Owin;
-    using Microsoft.Owin.Security;
     using System.Linq;
     using System.Threading.Tasks;
     using System.Web;
     using System.Web.Mvc;
-
+    using ManagerTaskService.Models;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.Owin;
+    using Microsoft.Owin.Security;
+ 
+    /// <summary>
+    /// The manager contoller
+    /// </summary>
     [Authorize]
     public class ManageController : Controller
     {
         private SignInManager _signInManager;
         private UserManager _userManager;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ManageController"/> class
+        /// </summary>
         public ManageController()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ManageController"/> class
+        /// </summary>
+        /// <param name="userManager"></param>
+        /// <param name="signInManager"></param>
         public ManageController(UserManager userManager, SignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
         }
 
+        /// <summary>
+        /// Gets the sign in manager
+        /// </summary>
         public SignInManager SignInManager
         {
             get
@@ -37,6 +51,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets the user manager
+        /// </summary>
         public UserManager UserManager
         {
             get
@@ -49,8 +66,11 @@
             }
         }
 
-        //
-        // GET: /Manage/Index
+        /// <summary>
+        /// The index
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <returns>Task wrapper with index view model view result</returns>
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
@@ -74,8 +94,12 @@
             return View(model);
         }
 
-        //
-        // POST: /Manage/RemoveLogin
+        /// <summary>
+        /// Removes the login
+        /// </summary>
+        /// <param name="loginProvider">The login provider.</param>
+        /// <param name="providerKey">The provider key.</param>
+        /// <returns>The redirect to action result</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RemoveLogin(string loginProvider, string providerKey)
@@ -98,15 +122,20 @@
             return RedirectToAction("ManageLogins", new { Message = message });
         }
 
-        //
-        // GET: /Manage/AddPhoneNumber
+        /// <summary>
+        /// Adds the phone number
+        /// </summary>
+        /// <returns>The add phone number view result</returns>
         public ActionResult AddPhoneNumber()
         {
             return View();
         }
 
-        //
-        // POST: /Manage/AddPhoneNumber
+        /// <summary>
+        /// Adds the phone number
+        /// </summary>
+        /// <param name="model">The add phone number view model</param>
+        /// <returns>The add phone number view result</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddPhoneNumber(AddPhoneNumberViewModel model)

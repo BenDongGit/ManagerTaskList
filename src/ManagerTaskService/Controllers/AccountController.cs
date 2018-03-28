@@ -10,22 +10,36 @@
     using System.Web;
     using System.Web.Mvc;
 
+    /// <summary>
+    /// The account controller
+    /// </summary>
     [Authorize]
     public class AccountController : Controller
     {
         private SignInManager _signInManager;
         private UserManager _userManager;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AccountController"/> class
+        /// </summary>
         public AccountController()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AccountController"/> class
+        /// </summary>
+        /// <param name="userManager">The user manager.</param>
+        /// <param name="signInManager">The sign in manager.</param>
         public AccountController(UserManager userManager, SignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
         }
 
+        /// <summary>
+        /// Gets the sign in manager
+        /// </summary>
         public SignInManager SignInManager
         {
             get
@@ -38,6 +52,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets the user manager
+        /// </summary>
         public UserManager UserManager
         {
             get
@@ -50,6 +67,11 @@
             }
         }
 
+        /// <summary>
+        /// The login
+        /// </summary>
+        /// <param name="returnUrl">The return url.</param>
+        /// <returns>The login view result</returns>
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
@@ -57,6 +79,12 @@
             return View();
         }
 
+        /// <summary>
+        /// The login
+        /// </summary>
+        /// <param name="model">The login view model.</param>
+        /// <param name="returnUrl">The return url.</param>
+        /// <returns>The login view result</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -83,6 +111,13 @@
             }
         }
 
+        /// <summary>
+        /// Verifies the code
+        /// </summary>
+        /// <param name="provider">The provider.</param>
+        /// <param name="returnUrl">The return url.</param>
+        /// <param name="rememberMe">The remember me flag.</param>
+        /// <returns>The verify view result</returns>
         [AllowAnonymous]
         public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
         {
@@ -93,6 +128,11 @@
             return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
+        /// <summary>
+        /// Verifies the code
+        /// </summary>
+        /// <param name="model">The verify code view model.</param>
+        /// <returns>The verify view result</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -117,12 +157,21 @@
             }
         }
 
+        /// <summary>
+        /// The register
+        /// </summary>
+        /// <returns>The register view result</returns>
         [AllowAnonymous]
         public ActionResult Register()
         {
             return View();
         }
 
+        /// <summary>
+        /// The register
+        /// </summary>
+        /// <param name="model">The register view model.</param>
+        /// <returns>The register view result</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -143,6 +192,12 @@
             return View(model);
         }
 
+        /// <summary>
+        /// Confirms the email
+        /// </summary>
+        /// <param name="userId">The user identity.</param>
+        /// <param name="code">The code.</param>
+        /// <returns>The confirm email view result</returns>
         [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
         {
@@ -154,12 +209,21 @@
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
+        /// <summary>
+        /// The forgot password
+        /// </summary>
+        /// <returns>The forgot password view result</returns>
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
             return View();
         }
 
+        /// <summary>
+        /// The forgot password
+        /// </summary>
+        /// <param name="model">The forgot password view model.</param>
+        /// <returns>The forgot password view result</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -177,18 +241,32 @@
             return View(model);
         }
 
+        /// <summary>
+        /// The forgot password confirmation
+        /// </summary>
+        /// <returns>The forgot password confirmation view result</returns>
         [AllowAnonymous]
         public ActionResult ForgotPasswordConfirmation()
         {
             return View();
         }
 
+        /// <summary>
+        /// Resets the password
+        /// </summary>
+        /// <param name="code">The code.</param>
+        /// <returns>The reset password view result</returns>
         [AllowAnonymous]
         public ActionResult ResetPassword(string code)
         {
             return code == null ? View("Error") : View();
         }
 
+        /// <summary>
+        /// Resets the password
+        /// </summary>
+        /// <param name="model">The reset password view model.</param>
+        /// <returns>The reset password view result</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -212,12 +290,22 @@
             return View();
         }
 
+        /// <summary>
+        /// The reset password confirmation
+        /// </summary>
+        /// <returns>The reset password confirmation view result</returns>
         [AllowAnonymous]
         public ActionResult ResetPasswordConfirmation()
         {
             return View();
         }
 
+        /// <summary>
+        /// The external login
+        /// </summary>
+        /// <param name="provider">The provider.</param>
+        /// <param name="returnUrl">The return url.</param>
+        /// <returns>The external login view result</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -226,6 +314,12 @@
             return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
         }
 
+        /// <summary>
+        /// Sends the code
+        /// </summary>
+        /// <param name="returnUrl">The return url.</param>
+        /// <param name="rememberMe">The remomber me flag.</param>
+        /// <returns></returns>
         [AllowAnonymous]
         public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
         {
@@ -239,6 +333,11 @@
             return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
+        /// <summary>
+        /// Sends the code
+        /// </summary>
+        /// <param name="model">The send code view model.</param>
+        /// <returns>The send code view model</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -256,6 +355,11 @@
             return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
         }
 
+        /// <summary>
+        /// The external login call back
+        /// </summary>
+        /// <param name="returnUrl">The return url.</param>
+        /// <returns>The external login call back view result</returns>
         [AllowAnonymous]
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
         {
@@ -282,6 +386,12 @@
             }
         }
 
+        /// <summary>
+        /// The external login confirmation
+        /// </summary>
+        /// <param name="model">The external login confirmation view model.</param>
+        /// <param name="returnUrl">The return url.</param>
+        /// <returns>The external login confirmation view result</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -317,6 +427,10 @@
             return View(model);
         }
 
+        /// <summary>
+        /// The logs off
+        /// </summary>
+        /// <returns>The log off view result</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
@@ -325,6 +439,10 @@
             return RedirectToAction("GetAlerts", "Alert");
         }
 
+        /// <summary>
+        /// The external login failure.
+        /// </summary>
+        /// <returns>The external login failure view result</returns>
         [AllowAnonymous]
         public ActionResult ExternalLoginFailure()
         {

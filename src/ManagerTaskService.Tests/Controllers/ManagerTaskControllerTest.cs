@@ -6,17 +6,21 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Web.Mvc;
 
+    /// <summary>
+    /// The manager task controller test
+    /// </summary>
     [TestClass]
     public class ManagerTaskControllerTest
     {
-        private Mock<MockTestDataAccess> mockManagerTaskDataAccess = new Mock<MockTestDataAccess>();
+        private Mock<FakeManagerTaskDataAccess> mockManagerTaskDataAccess = new Mock<FakeManagerTaskDataAccess>();
 
+        /// <summary>
+        /// Tests the index
+        /// </summary>
         [TestMethod]
-        public void Test_Index()
+        public void Index()
         {
             ManagerTaskController mtc = new ManagerTaskController(mockManagerTaskDataAccess.Object);
             ViewResult result = mtc.Index() as ViewResult;
@@ -25,8 +29,11 @@
             result.Should().NotBeNull();
         }
 
+        /// <summary>
+        /// Tests the add driver
+        /// </summary>
         [TestMethod]
-        public void Test_AddDriver()
+        public void AddDriver()
         {
             ManagerTaskController mtc = new ManagerTaskController(mockManagerTaskDataAccess.Object);
             ViewResult result = mtc.AddDriver() as ViewResult;
@@ -41,9 +48,11 @@
             Assert.AreEqual(result.ViewBag.Error, "Object reference not set to an instance of an object.");
         }
 
-
+        /// <summary>
+        /// Tests the get driver
+        /// </summary>
         [TestMethod]
-        public void Test_GetDriver()
+        public void GetDriver()
         {
             ManagerTaskController mtc = new ManagerTaskController(mockManagerTaskDataAccess.Object);
             string driverName = "Test Manager";
@@ -55,8 +64,11 @@
             Assert.AreEqual(driver.Name, driverName);
         }
 
+        /// <summary>
+        /// Tests the add check
+        /// </summary>
         [TestMethod]
-        public void Test_AddCheck()
+        public void AddCheck()
         {
             ManagerTaskController mtc = new ManagerTaskController(mockManagerTaskDataAccess.Object);
             ViewResult result = mtc.AddCheck() as ViewResult;
@@ -74,8 +86,11 @@
             Assert.AreNotEqual(redirectResult.RouteName, "GetChecksByDriver");
         }
 
+        /// <summary>
+        /// Tests get checks by manager
+        /// </summary>
         [TestMethod]
-        public void Test_GetChecksByManager()
+        public void GetChecksByManager()
         {
             ManagerTaskController mtc = new ManagerTaskController(mockManagerTaskDataAccess.Object);
             ViewResult result = mtc.GetChecksByManager() as ViewResult;

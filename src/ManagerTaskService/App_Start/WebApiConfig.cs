@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Http;
-
-namespace ManagerTaskService
+﻿namespace ManagerTaskService
 {
+    using System.Web.Http;
+
+    /// <summary>
+    /// The web API config
+    /// </summary>
     public static class WebApiConfig
     {
+        /// <summary>
+        /// Registers the http config
+        /// </summary>
+        /// <param name="config">The http config</param>
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
