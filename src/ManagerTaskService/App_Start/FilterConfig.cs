@@ -1,7 +1,6 @@
 ﻿namespace ManagerTaskService
 {
     using System.Web.Mvc;
-    using ManagerTaskService.ExceptionHandling;
 
     /// <summary>
     /// The fileter config
@@ -15,7 +14,6 @@
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
-            // filters.Add(new ExceptionHandlingAttribute());
         }
     }
 }
