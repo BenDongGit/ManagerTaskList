@@ -13,7 +13,7 @@
     [Authorize]
     public class AlertController : Controller
     {
-        private static readonly int PageSize = 10;
+        private static readonly int PageSize = 3;
         private static readonly int PageSpan = 4;
         private static readonly TimeSpan ExpiringSpan = TimeSpan.FromDays(15);
         private IManagerTaskDataAccess managerTaskDataAccess;
