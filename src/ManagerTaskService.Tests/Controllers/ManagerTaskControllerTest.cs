@@ -45,7 +45,6 @@
             result = mtc.AddDriver(driver, null) as ViewResult;
 
             result.Should().NotBeNull();
-            Assert.AreEqual(result.ViewBag.Error, "Object reference not set to an instance of an object.");
         }
 
         /// <summary>
@@ -97,7 +96,6 @@
 
             mtc.Should().NotBeNull();
             result.Should().NotBeNull();
-            Assert.AreEqual(result.ViewBag.Error, "Object reference not set to an instance of an object.");
         }
     }
 }
