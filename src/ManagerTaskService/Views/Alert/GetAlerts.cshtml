@@ -13,6 +13,7 @@ else
 {
     if (Model.Alerts != null && Model.Alerts.Count > 0)
     {
+        <input type="text" id="filter" class="form-control input-sm" placeholder="Search"/>
         <div style="padding:20px">
             <div class="row text-info">
                 <div class="col-sm-3 grid-control"><strong>Driver</strong></div>
@@ -23,7 +24,7 @@ else
             <div style="padding-top:10px">
                 @foreach (var alert in Model.Alerts)
                 {
-                    <div class="row">
+                    <div class="row driver-alert">
                         <div class="col-sm-3 grid-control">@alert.DriverName</div>
                         <div class="col-sm-3 grid-control">@((AlertType)alert.Type)</div>
                         <div class="col-sm-3 grid-control">@((AlertLevel)alert.Level)</div>
@@ -62,3 +63,16 @@ else
         <p class="text-danger warning">There are no alerts found</p>
     }
 }
+<script>
+    $('#filter').keyup(function () {
+        var alerts = $('.driver-alert');
+        var key = $(this).val();
+        alerts.map(function (index, el) {
+            if (el.children[0].textContent.toLowerCase().indexOf(key.toLowerCase()) < 0) {
+                el.setAttribute("style", "display:none");
+            } else {
+                el.setAttribute("style", "")
+            }
+        })
+    })
+</script>
