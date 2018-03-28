@@ -7,3 +7,6 @@
 /src/ManagerTask.Data/obj
 /src/ManagerTaskService/obj/Debug
 /src/ManagerTaskService.Tests/obj/Debug
+/src/ManagerTask.Data/bin/Debug/net461
+/src/ManagerTaskService/bin
+/src/ManagerTaskService.Tests/bin/Debug

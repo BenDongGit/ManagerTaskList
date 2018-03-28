@@ -5,10 +5,19 @@
     using System.Linq;
     using Helper;
 
+    /// <summary>
+    /// The manager task data access
+    /// </summary>
     public class ManagerTaskDataAccess : IManagerTaskDataAccess
     {
-        private IDbContextHelper<ManagerTaskContext> mtcHelper = new DbContextHelper<ManagerTaskContext>();
+        private IDbContextHelper<ManagerTaskContext> databaseHelper = new DbContextHelper<ManagerTaskContext>();
 
+        /// <summary>
+        /// Adds the driver.
+        /// </summary>
+        /// <param name="name">The driver name.</param>
+        /// <param name="managerName">The manager name.</param>
+        /// <param name="dateJoinedCompany">The date the driver joined company.</param>
         public void AddDriver(string name, string managerName, DateTime? dateJoinedCompany)
         {
             if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(managerName))
@@ -16,7 +25,7 @@
                 throw new ArgumentNullException("Missing manager name or dirver name");
             }
 
-            mtcHelper.CallWithTransaction(context =>
+            databaseHelper.CallWithTransaction(context =>
             {
                 var manager = context.Users.FirstOrDefault(
                     m => m.UserName.ToLower() == managerName.ToLower());
@@ -44,17 +53,27 @@
             });
         }
 
+        /// <summary>
+        /// Gets the driver.
+        /// </summary>
+        /// <param name="name">The driver name.</param>
+        /// <returns>The driver</returns>
         public Driver GetDriver(string name)
         {
-            return mtcHelper.Call(context =>
+            return databaseHelper.Call(context =>
             {
                 return context.Drivers.FirstOrDefault(m => m.Name.ToLower() == name.ToLower());
             });
         }
 
+        /// <summary>
+        /// Gets the drivers.
+        /// </summary>
+        /// <param name="manager">The manager.</param>
+        /// <returns>Driver collection</returns>
         public IEnumerable<Driver> GetDrivers(string managerName)
         {
-            return mtcHelper.CallWithTransaction(context =>
+            return databaseHelper.CallWithTransaction(context =>
             {
                 var manager = context.Users.FirstOrDefault(
                    m => m.UserName.ToLower() == managerName.ToLower());
@@ -68,9 +87,14 @@
             });
         }
 
+        /// <summary>
+        /// Gets the drivers with no checks.
+        /// </summary>
+        /// <param name="manager">The manager.</param>
+        /// <returns>Driver collection</returns>
         public IEnumerable<Driver> GetDriversWithNoChecks(string managerName)
         {
-            return mtcHelper.CallWithTransaction(context =>
+            return databaseHelper.CallWithTransaction(context =>
             {
                 var manager = context.Users.FirstOrDefault(
                    m => m.UserName.ToLower() == managerName.ToLower());
@@ -84,6 +108,13 @@
             });
         }
 
+        /// <summary>
+        /// Adds the check.
+        /// </summary>
+        /// <param name="driver">The driver name.</param>
+        /// <param name="type">The check type.</param>
+        /// <param name="success">The success flag.</param>
+        /// <param name="date">The check time.</param>
         public void AddCheck(string driverName, CheckType type, bool success, DateTime date)
         {
             if (string.IsNullOrEmpty(driverName))
@@ -91,7 +122,7 @@
                 throw new ArgumentNullException("The dirver should not be empty");
             }
 
-            mtcHelper.CallWithTransaction(context =>
+            databaseHelper.CallWithTransaction(context =>
             {
                 var driver = context.Drivers.FirstOrDefault(
                     d => d.Name.ToLower() == driverName.ToLower());
@@ -114,6 +145,10 @@
             });
         }
 
+        /// <summary>
+        /// Adds the checks.
+        /// </summary>
+        /// <param name="checks">The check collection.</param>
         public void AddChecks(IEnumerable<Check> checks)
         {
             if (checks == null || checks.Count() == 0)
@@ -121,13 +156,18 @@
                 throw new ArgumentNullException("There is no available check to be added");
             }
 
-            mtcHelper.CallWithTransaction(context =>
+            databaseHelper.CallWithTransaction(context =>
             {
                 context.Set<Check>().AddRange(checks);
                 context.SaveChanges();
             });
         }
 
+        /// <summary>
+        /// Gets the checks by manager.
+        /// </summary>
+        /// <param name="manager">The manager.</param>
+        /// <returns>The check collection</returns>
         public IEnumerable<Check> GetChecksByManager(string managerName)
         {
             if (string.IsNullOrEmpty(managerName))
@@ -135,7 +175,7 @@
                 throw new ArgumentNullException("The manager should not be empty");
             }
 
-            return mtcHelper.Call<IEnumerable<Check>>(context =>
+            return databaseHelper.Call<IEnumerable<Check>>(context =>
             {
                 var manager = context.Users.FirstOrDefault(
                     m => m.UserName.ToLower() == managerName.ToLower());
@@ -148,6 +188,11 @@
             });
         }
 
+        /// <summary>
+        /// Gets the checks by driver.
+        /// </summary>
+        /// <param name="driver">The driver.</param>
+        /// <returns>The check collection</returns>
         public IEnumerable<Check> GetChecksByDriver(string driverName)
         {
             if (string.IsNullOrEmpty(driverName))
@@ -155,7 +200,7 @@
                 throw new ArgumentNullException("The driver name should not be empty");
             }
 
-            return mtcHelper.Call<IEnumerable<Check>>(context =>
+            return databaseHelper.Call<IEnumerable<Check>>(context =>
             {
                 var driver = context.Drivers.FirstOrDefault(
                     d => d.Name.ToLower() == driverName.ToLower());
